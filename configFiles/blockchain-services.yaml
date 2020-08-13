@@ -1,0 +1,285 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ca-org1
+  labels:
+    run: ca-org1
+spec:
+  type: NodePort
+  selector:
+    name: ca-org1
+  ports:
+  - protocol: TCP
+    nodePort: 30054
+    targetPort: 7054
+    port: 30054
+    name: grpc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ca-org2
+  labels:
+    run: ca-org2
+spec:
+  type: NodePort
+  selector:
+    name: ca-org2
+  ports:
+  - protocol: TCP
+    nodePort: 30154
+    targetPort: 7054
+    port: 30154
+    name: grpc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ca-org3
+  labels:
+    run: ca-org3
+spec:
+  type: NodePort
+  selector:
+    name: ca-org3
+  ports:
+  - protocol: TCP
+    nodePort: 30254
+    targetPort: 7054
+    port: 30254
+    name: grpc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orderer
+  labels:
+    run: orderer
+spec:
+  type: NodePort
+  selector:
+    name: orderer
+  ports:
+  - protocol: TCP
+    nodePort: 31010
+    targetPort: 31010
+    port: 31010
+    name: grpc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orderer2
+  labels:
+    run: orderer2
+spec:
+  type: NodePort
+  selector:
+    name: orderer2
+  ports:
+  - protocol: TCP
+    nodePort: 31020
+    targetPort: 31020
+    port: 31020
+    name: grpc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orderer3
+  labels:
+    run: orderer3
+spec:
+  type: NodePort
+  selector:
+    name: orderer3
+  ports:
+  - protocol: TCP
+    nodePort: 31030
+    targetPort: 31030
+    port: 31030
+    name: grpc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orderer4
+  labels:
+    run: orderer4
+spec:
+  type: NodePort
+  selector:
+    name: orderer4
+  ports:
+  - protocol: TCP
+    nodePort: 31040
+    targetPort: 31040
+    port: 31040
+    name: grpc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orderer5
+  labels:
+    run: orderer5
+spec:
+  type: NodePort
+  selector:
+    name: orderer5
+  ports:
+  - protocol: TCP
+    nodePort: 31050
+    targetPort: 31050
+    port: 31050
+    name: grpc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: org1peer0
+  labels:
+    run: org1peer0
+spec:
+  type: NodePort
+  selector:
+    name: org1peer0
+  ports:
+  - protocol: TCP
+    nodePort: 30410
+    targetPort: 30410
+    port: 30410
+    name: grpc
+  - protocol: TCP
+    nodePort: 30411
+    targetPort: 30411
+    port: 30411
+    name: events
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: org1peer1
+  labels:
+    run: org1peer1
+spec:
+  type: NodePort
+  selector:
+    name: org1peer1
+  ports:
+  - protocol: TCP
+    nodePort: 30420
+    targetPort: 30420
+    port: 30420
+    name: grpc
+  - protocol: TCP
+    nodePort: 30421
+    targetPort: 30421
+    port: 30421
+    name: events
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: org2peer0
+  labels:
+    run: org2peer0
+spec:
+  type: NodePort
+  selector:
+    name: org2peer0
+  ports:
+  - protocol: TCP
+    nodePort: 30510
+    targetPort: 30510
+    port: 30510
+    name: grpc
+  - protocol: TCP
+    nodePort: 30511
+    targetPort: 30511
+    port: 30511
+    name: events
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: org2peer1
+  labels:
+    run: org2peer1
+spec:
+  type: NodePort
+  selector:
+    name: org2peer1
+  ports:
+  - protocol: TCP
+    nodePort: 30520
+    targetPort: 30520
+    port: 30520
+    name: grpc
+  - protocol: TCP
+    nodePort: 30521
+    targetPort: 30521
+    port: 30521
+    name: events
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: org3peer0
+  labels:
+    run: org3peer0
+spec:
+  type: NodePort
+  selector:
+    name: org3peer0
+  ports:
+  - protocol: TCP
+    nodePort: 30610
+    targetPort: 30610
+    port: 30610
+    name: grpc
+  - protocol: TCP
+    nodePort: 30611
+    targetPort: 30611
+    port: 30611
+    name: events
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: org3peer1
+  labels:
+    run: org3peer1
+spec:
+  type: NodePort
+  selector:
+    name: org3peer1
+  ports:
+  - protocol: TCP
+    nodePort: 30620
+    targetPort: 30620
+    port: 30620
+    name: grpc
+  - protocol: TCP
+    nodePort: 30621
+    targetPort: 30621
+    port: 30621
+    name: events
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#     name: nodeapp
+#     labels:
+#       run: nodeapp
+# spec:
+#     type: NodePort
+#     selector:
+#       name: nodeapp
+#     ports:
+#     - protocol: TCP
+#       nodePort: 30080
+#       targetPort: 4000
+#       port: 30080
+        

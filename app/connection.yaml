@@ -1,0 +1,196 @@
+---
+name: example.firstnetwork.connectionprofile
+x-type: "hlfv1"
+description: "example methods will be used through this profile"
+version: "1.0"
+
+channels:
+  example:
+    orderers:
+      - orderer.example.com
+      - orderer2.example.com
+      - orderer3.example.com
+      - orderer4.example.com
+      - orderer5.example.com
+    peers:
+      org1peer0.org1.example.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+      org2peer0.org2.example.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+      org3peer0.org3.example.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+      org1peer1.org1.example.com:
+        endorsingPeer: false
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+      org2peer1.org2.example.com:
+        endorsingPeer: false
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+      org3peer1.org3.example.com:
+        endorsingPeer: false
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+
+organizations:
+  Org1:
+    mspid: Org1MSP
+    peers:
+      - org1peer0.org1.example.com
+      - org1peer1.org1.example.com
+    certificateAuthorities:
+      - ca.org1.example.com
+    adminPrivateKey:
+      path: ../../shared/artifacts/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/key.pem
+    signedCert:
+      path: ../../shared/artifacts/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/Admin@org1.example.com-cert.pem
+  
+  Org2:
+    mspid: Org2MSP
+    peers:
+      - org2peer1.org2.example.com
+      - org2peer1.org2.example.com
+    certificateAuthorities:
+      - ca.org2.example.com
+    adminPrivateKey:
+      path: ../../shared/artifacts/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/keystore/key.pem
+    signedCert:
+      path: ../../shared/artifacts/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/signcerts/Admin@org2.example.com-cert.pem
+  Org3:
+    mspid: Org3MSP
+    peers:
+      - org3peer1.org3.example.com
+      - org3peer1.org3.example.com
+    certificateAuthorities:
+      - ca.org3.example.com
+    adminPrivateKey:
+      path: ../../shared/artifacts/crypto-config/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp/keystore/key.pem
+    signedCert:
+      path: ../../shared/artifacts/crypto-config/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp/signcerts/Admin@org3.example.com-cert.pem
+orderers:
+  orderer.example.com:
+    url: grpcs://orderer:31010
+    grpcOptions:
+      ssl-target-name-override: orderer.example.com
+    tlsCACerts:
+      path: ../../shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+
+  orderer2.example.com:
+    url: grpcs://orderer2:31020
+    grpcOptions:
+      ssl-target-name-override: orderer2.example.com
+    tlsCACerts:
+      path: ../../shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+  
+  orderer3.example.com:
+    url: grpcs://orderer3:31030
+    grpcOptions:
+      ssl-target-name-override: orderer3.example.com
+    tlsCACerts:
+      path: ../../shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+
+  orderer4.example.com:
+    url: grpcs://orderer4:31040
+    grpcOptions:
+      ssl-target-name-override: orderer.example.com
+    tlsCACerts:
+      path: ../../shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+
+  orderer5.example.com:
+    url: grpcs://orderer5:31050
+    grpcOptions:
+      ssl-target-name-override: orderer5.example.com
+    tlsCACerts:
+      path: ../../shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+
+peers:
+  org1peer0.org1.example.com:
+    url: grpcs://org1peer0:30410
+    grpcOptions:
+      ssl-target-name-override: org1peer0.org1.example.com
+      request-timeout: 120001
+    tlsCACerts:
+      path: ../../shared/artifacts/crypto-config/peerOrganizations/org1.example.com/peers/org1peer0.org1.example.com/msp/tlscacerts/tlsca.org1.example.com-cert.pem
+
+  org1peer1.org1.example.com:
+    url: grpcs://org1peer1:30420
+    grpcOptions:
+      ssl-target-name-override: org1peer0.org1.example.com
+      request-timeout: 120001
+    tlsCACerts:
+      path: ../../shared/artifacts/crypto-config/peerOrganizations/org1.example.com/peers/org1peer1.org1.example.com/msp/tlscacerts/tlsca.org1.example.com-cert.pem
+  
+  org2peer0.org2.example.com:
+    url: grpcs://org2peer0:30510
+    grpcOptions:
+      ssl-target-name-override: org2peer0.org2.example.com
+      request-timeout: 120001
+    tlsCACerts:
+      path: ../../shared/artifacts/crypto-config/peerOrganizations/org2.example.com/peers/org2peer0.org2.example.com/msp/tlscacerts/tlsca.org2.example.com-cert.pem
+
+  org2peer1.org2.example.com:
+    url: grpcs://org2peer1:30520
+    grpcOptions:
+      ssl-target-name-override: org2peer1.org2.example.com
+      request-timeout: 120001
+    tlsCACerts:
+      path: ../../shared/artifacts/crypto-config/peerOrganizations/org2.example.com/peers/org2peer1.org2.example.com/msp/tlscacerts/tlsca.org2.example.com-cert.pem
+  org3peer0.org3.example.com:
+    url: grpcs://org3peer0:30610
+    grpcOptions:
+      ssl-target-name-override: org3peer0.org3.example.com
+      request-timeout: 120001
+    tlsCACerts:
+      path: ../../shared/artifacts/crypto-config/peerOrganizations/org3.example.com/peers/org3peer0.org3.example.com/msp/tlscacerts/tlsca.org3.example.com-cert.pem
+
+  org3peer1.org3.example.com:
+    url: grpcs://org3peer1:30620
+    grpcOptions:
+      ssl-target-name-override: org3peer1.org3.example.com
+      request-timeout: 120001
+    tlsCACerts:
+      path: ../../shared/artifacts/crypto-config/peerOrganizations/org3.example.com/peers/org3peer1.org3.example.com/msp/tlscacerts/tlsca.org3.example.com-cert.pem
+
+certificateAuthorities:
+  ca.org1.example.com:
+    url: http://ca-org1:30054
+    httpOptions:
+      verify: false
+    tlsCACerts:
+      path: ../../shared/artifacts/crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem
+    registrar:
+      - enrollId: admin
+        enrollSecret: adminpw
+    caName: ca.org1.example.com
+  ca.org2.example.com:
+    url: http://ca-org2:30154
+    httpOptions:
+      verify: false
+    tlsCACerts:
+      path: ../../shared/artifacts/crypto-config/peerOrganizations/org2.example.com/ca/ca.org2.example.com-cert.pem
+    registrar:
+      - enrollId: admin
+        enrollSecret: adminpw
+    caName: ca.org2.example.com
+  ca.org3.example.com:
+    url: http://ca-org3:30254
+    httpOptions:
+      verify: false
+    tlsCACerts:
+      path: ../../shared/artifacts/crypto-config/peerOrganizations/org3.example.com/ca/ca.org3.example.com-cert.pem
+    registrar:
+      - enrollId: admin
+        enrollSecret: adminpw
+    caName: ca.org3.example.com

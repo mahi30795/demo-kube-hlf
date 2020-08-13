@@ -1,0 +1,208 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: shared-pv
+  labels:
+    type: local
+    name: sharedvolume
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: gp2
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: orderer-pvc
+  labels:
+    app: blockchain
+spec:
+  storageClassName: shared-pv
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: orderer2-pvc
+  labels:
+    app: blockchain
+spec:
+  storageClassName: shared-pv
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: orderer3-pvc
+  labels:
+    app: blockchain
+spec:
+  storageClassName: shared-pv
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: orderer4-pvc
+  labels:
+    app: blockchain
+spec:
+  storageClassName: shared-pv
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: orderer5-pvc
+  labels:
+    app: blockchain
+spec:
+  storageClassName: shared-pv
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: ca-org1-pvc
+  labels:
+    app: blockchain
+spec:
+  storageClassName: shared-pv
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: ca-org2-pvc
+  labels:
+    app: blockchain
+spec:
+  storageClassName: shared-pv
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: ca-org3-pvc
+  labels:
+    app: blockchain
+spec:
+  storageClassName: shared-pv
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: org1peer0-pvc
+  labels:
+    app: blockchain
+spec:
+  storageClassName: shared-pv
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: org1peer1-pvc
+  labels:
+    app: blockchain
+spec:
+  storageClassName: shared-pv
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: org2peer0-pvc
+  labels:
+    app: blockchain
+spec:
+  storageClassName: shared-pv
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: org2peer1-pvc
+  labels:
+    app: blockchain
+spec:
+  storageClassName: shared-pv
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: org3peer0-pvc
+  labels:
+    app: blockchain
+spec:
+  storageClassName: shared-pv
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: org3peer1-pvc
+  labels:
+    app: blockchain
+spec:
+  storageClassName: shared-pv
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

@@ -1,0 +1,100 @@
+{
+    "network-config": {
+        "orderer": [
+            {
+                "url": "grpcs://orderer:31010",
+                "server-hostname": "orderer.example.com",
+                "tls_cacerts": "../../shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/ca.crt"
+            },
+            {
+                "url": "grpcs://orderer2:31020",
+                "server-hostname": "orderer2.example.com",
+                "tls_cacerts": "../../shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/ca.crt"
+            },
+            {
+                "url": "grpcs://orderer3:31030",
+                "server-hostname": "orderer3.example.com",
+                "tls_cacerts": "../../shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/ca.crt"
+            },
+            {
+                "url": "grpcs://orderer4:31040",
+                "server-hostname": "orderer4.example.com",
+                "tls_cacerts": "../../shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/ca.crt"
+            },
+            {
+                "url": "grpcs://orderer5:31050",
+                "server-hostname": "orderer5.example.com",
+                "tls_cacerts": "../../shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/tls/ca.crt"
+            }
+        ],
+        "org1": {
+            "name": "peerOrg1",
+            "mspid": "Org1MSP",
+            "ca": "http://ca-org1:30054",
+            "peers": {
+                "peer1": {
+                    "requests": "grpcs://org1peer0:30410",
+                    "events": "grpcs://org1peer0:30411",
+                    "server-hostname": "org1peer0.org1.example.com",
+                    "tls_cacerts": "../../shared/artifacts/crypto-config/peerOrganizations/org1.example.com/peers/org1peer0.org1.example.com/tls/ca.crt"
+                },
+                "peer2": {
+                    "requests": "grpcs://org1peer1:30420",
+                    "events": "grpcs://org1peer1:30421",
+                    "server-hostname": "org1peer1.org1.example.com",
+                    "tls_cacerts": "../../shared/artifacts/crypto-config/peerOrganizations/org1.example.com/peers/org1peer1.org1.example.com/tls/ca.crt"
+                }
+            },
+            "admin": {
+                "key": "../../shared/artifacts/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore",
+                "cert": "../../shared/artifacts/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts"
+            }
+        },
+        "org2": {
+            "name": "peerOrg2",
+            "mspid": "Org2MSP",
+            "ca": "http://ca-org2:30154",
+            "peers": {
+                "peer1": {
+                    "requests": "grpcs://org2peer0:30510",
+                    "events": "grpc://org2peer0:30511",
+                    "server-hostname": "org2peer0.org2.example.com",
+                    "tls_cacerts": "../../shared/artifacts/crypto-config/peerOrganizations/org2.example.com/peers/org2peer0.org2.example.com/tls/ca.crt"
+                },
+                "peer2": {
+                    "requests": "grpcs://org2peer1:30520",
+                    "events": "grpcs://org2peer1:30521",
+                    "server-hostname": "org2peer1.org2.example.com",
+                    "tls_cacerts": "../../shared/artifacts/crypto-config/peerOrganizations/org2.example.com/peers/org2peer1.org2.example.com/tls/ca.crt"
+                }
+            },
+            "admin": {
+                "key": "../../shared/artifacts/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/keystore",
+                "cert": "../../shared/artifacts/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/signcerts"
+            }
+        },
+        "org3": {
+            "name": "peerOrg3",
+            "mspid": "Org3MSP",
+            "ca": "http://ca-org3:30254",
+            "peers": {
+                "peer1": {
+                    "requests": "grpcs://org3peer0:30610",
+                    "events": "grpcs://org3peer0:30611",
+                    "server-hostname": "org3peer0.org3.example.com",
+                    "tls_cacerts": "../../shared/artifacts/crypto-config/peerOrganizations/org3.example.com/peers/org3peer0.org3.example.com/tls/ca.crt"
+                },
+                "peer2": {
+                    "requests": "grpcs://org3peer1:30620",
+                    "events": "grpcs://org3peer1:30621",
+                    "server-hostname": "org3peer1.org3.example.com",
+                    "tls_cacerts": "../../shared/artifacts/crypto-config/peerOrganizations/org3.example.com/peers/org3peer1.org3.example.com/tls/ca.crt"
+                }
+            },
+            "admin": {
+                "key": "../../shared/artifacts/crypto-config/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp/keystore",
+                "cert": "../../shared/artifacts/crypto-config/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp/signcerts"
+            }
+        }
+    }
+}

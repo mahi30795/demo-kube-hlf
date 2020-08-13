@@ -1,0 +1,430 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orderer
+  labels:
+    app: orderer
+    version: v1
+spec:
+  replicas: 1
+  minReadySeconds: 60
+  selector:
+    matchLabels:
+      version: v1
+      app: orderer
+  template:
+    metadata:
+      labels:
+        version: v1
+        app: orderer
+    spec:
+      volumes:
+      - name: sharedvolume
+        persistentVolumeClaim:
+          claimName: orderer-pvc
+      - name: ordadmincert
+        secret:
+          secretName: ordadmincert
+      - name: ordcacert
+        secret:
+          secretName: ordcacert
+      - name: orderercert
+        secret:
+          secretName: orderercert
+      - name: ordererkey
+        secret:
+          secretName: ordererkey   
+      - name: orderertlsca
+        secret:
+          secretName: orderertlsca
+      - name: orderertlscert
+        secret:
+          secretName: orderertlscert
+      - name: orderertlskey
+        secret:
+          secretName: orderertlskey
+      - name: genesis
+        secret:
+          secretName: genesis
+      serviceAccountName: blockchain-orderer
+      containers:
+      - name: orderer
+        image: hyperledger/fabric-orderer:1.4
+        command: ["sh", "-c", "sleep 5; orderer"]
+        ports:
+          - containerPort: 31010
+        envFrom:
+        - configMapRef:
+            name: ordererconfigmap
+        env:
+        - name: ORDERER_GENERAL_LISTENADDRESS
+          value: "0.0.0.0"
+        - name: ORDERER_GENERAL_LISTENPORT
+          value: "31010"
+        volumeMounts:
+        - mountPath: /shared
+          name: sharedvolume
+        - mountPath: /var/hyperledger
+          name: sharedvolume
+        - mountPath: /var/hyperledger/msp/admincerts/
+          name: ordadmincert
+        - mountPath: /var/hyperledger/msp/cacerts/
+          name: ordcacert
+        - mountPath: /var/hyperledger/msp/signcerts/
+          name: orderercert
+        - mountPath: /var/hyperledger/msp/keystore/
+          name: ordererkey
+        - mountPath: /var/hyperledger/tls/ca
+          name: orderertlsca
+        - mountPath: /var/hyperledger/tls/cert
+          name: orderertlscert
+        - mountPath: /var/hyperledger/tls/key
+          name: orderertlskey
+        - mountPath: /var/hyperledger/files
+          name: genesis
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orderer2
+  labels:
+    app: orderer2
+    version: v1
+spec:
+  replicas: 1
+  minReadySeconds: 60
+  selector:
+    matchLabels:
+      version: v1
+      app: orderer2
+  template:
+    metadata:
+      labels:
+        version: v1
+        app: orderer2
+    spec:
+      volumes:
+      - name: sharedvolume
+        persistentVolumeClaim:
+          claimName: orderer2-pvc
+      - name: ordadmincert
+        secret:
+          secretName: ordadmincert
+      - name: ordcacert
+        secret:
+          secretName: ordcacert
+      - name: orderer2cert
+        secret:
+          secretName: orderer2cert
+      - name: orderer2key
+        secret:
+          secretName: orderer2key   
+      - name: orderer2tlsca
+        secret:
+          secretName: orderer2tlsca
+      - name: orderer2tlscert
+        secret:
+          secretName: orderer2tlscert
+      - name: orderer2tlskey
+        secret:
+          secretName: orderer2tlskey
+      - name: genesis
+        secret:
+          secretName: genesis
+      serviceAccountName: blockchain-orderer2
+      containers:
+      
+      - name: orderer2
+        image: hyperledger/fabric-orderer:1.4
+        command: ["sh", "-c", "sleep 5; orderer"]
+        ports:
+          - containerPort: 31020
+        envFrom:
+        - configMapRef:
+            name: ordererconfigmap
+        env:
+        - name: ORDERER_GENERAL_LISTENADDRESS
+          value: "0.0.0.0"
+        - name: ORDERER_GENERAL_LISTENPORT
+          value: "31020"
+        volumeMounts:
+        - mountPath: /shared
+          name: sharedvolume
+        - mountPath: /var/hyperledger
+          name: sharedvolume
+        - mountPath: /var/hyperledger/msp/admincerts/
+          name: ordadmincert
+        - mountPath: /var/hyperledger/msp/cacerts/
+          name: ordcacert
+        - mountPath: /var/hyperledger/msp/signcerts/
+          name: orderer2cert
+        - mountPath: /var/hyperledger/msp/keystore/
+          name: orderer2key
+        - mountPath: /var/hyperledger/tls/ca
+          name: orderer2tlsca
+        - mountPath: /var/hyperledger/tls/cert
+          name: orderer2tlscert
+        - mountPath: /var/hyperledger/tls/key
+          name: orderer2tlskey
+        - mountPath: /var/hyperledger/files
+          name: genesis
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orderer3
+  labels:
+    app: orderer3
+    version: v1
+spec:
+  replicas: 1
+  minReadySeconds: 60
+  selector:
+    matchLabels:
+      version: v1
+      app: orderer3
+  template:
+    metadata:
+      labels:
+        version: v1
+        app: orderer3
+    spec:
+      volumes:
+      - name: sharedvolume
+        persistentVolumeClaim:
+          claimName: orderer3-pvc
+      - name: ordadmincert
+        secret:
+          secretName: ordadmincert
+      - name: ordcacert
+        secret:
+          secretName: ordcacert
+      - name: orderer3cert
+        secret:
+          secretName: orderer3cert
+      - name: orderer3key
+        secret:
+          secretName: orderer3key   
+      - name: orderer3tlsca
+        secret:
+          secretName: orderer3tlsca
+      - name: orderer3tlscert
+        secret:
+          secretName: orderer3tlscert
+      - name: orderer3tlskey
+        secret:
+          secretName: orderer3tlskey
+      - name: genesis
+        secret:
+          secretName: genesis
+      serviceAccountName: blockchain-orderer3
+      containers:
+      
+      - name: orderer3
+        image: hyperledger/fabric-orderer:1.4
+        command: ["sh", "-c", "sleep 5; orderer"]
+        ports:
+          - containerPort: 31030
+        envFrom:
+        - configMapRef:
+            name: ordererconfigmap
+        env:
+        - name: ORDERER_GENERAL_LISTENADDRESS
+          value: "0.0.0.0"
+        - name: ORDERER_GENERAL_LISTENPORT
+          value: "31030"
+        volumeMounts:
+        - mountPath: /shared
+          name: sharedvolume
+        - mountPath: /var/hyperledger
+          name: sharedvolume
+        - mountPath: /var/hyperledger/msp/admincerts/
+          name: ordadmincert
+        - mountPath: /var/hyperledger/msp/cacerts/
+          name: ordcacert
+        - mountPath: /var/hyperledger/msp/signcerts/
+          name: orderer3cert
+        - mountPath: /var/hyperledger/msp/keystore/
+          name: orderer3key
+        - mountPath: /var/hyperledger/tls/ca
+          name: orderer3tlsca
+        - mountPath: /var/hyperledger/tls/cert
+          name: orderer3tlscert
+        - mountPath: /var/hyperledger/tls/key
+          name: orderer3tlskey
+        - mountPath: /var/hyperledger/files
+          name: genesis
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orderer4
+  labels:
+    app: orderer4
+    version: v1
+spec:
+  replicas: 1
+  minReadySeconds: 60
+  selector:
+    matchLabels:
+      version: v1
+      app: orderer4
+  template:
+    metadata:
+      labels:
+        version: v1
+        app: orderer4
+    spec:
+      volumes:
+      - name: sharedvolume
+        persistentVolumeClaim:
+          claimName: orderer4-pvc
+      - name: ordadmincert
+        secret:
+          secretName: ordadmincert
+      - name: ordcacert
+        secret:
+          secretName: ordcacert
+      - name: orderer4cert
+        secret:
+          secretName: orderer4cert
+      - name: orderer4key
+        secret:
+          secretName: orderer4key   
+      - name: orderer4tlsca
+        secret:
+          secretName: orderer4tlsca
+      - name: orderer4tlscert
+        secret:
+          secretName: orderer4tlscert
+      - name: orderer4tlskey
+        secret:
+          secretName: orderer4tlskey
+      - name: genesis
+        secret:
+          secretName: genesis
+      serviceAccountName: blockchain-orderer4
+      containers:
+      
+      - name: orderer4
+        image: hyperledger/fabric-orderer:1.4
+        command: ["sh", "-c", "sleep 5; orderer"]
+        ports:
+          - containerPort: 31040
+        envFrom:
+        - configMapRef:
+            name: ordererconfigmap
+        env:
+        - name: ORDERER_GENERAL_LISTENADDRESS
+          value: "0.0.0.0"
+        - name: ORDERER_GENERAL_LISTENPORT
+          value: "31040"
+        volumeMounts:
+        - mountPath: /shared
+          name: sharedvolume
+        - mountPath: /var/hyperledger
+          name: sharedvolume
+        - mountPath: /var/hyperledger/msp/admincerts/
+          name: ordadmincert
+        - mountPath: /var/hyperledger/msp/cacerts/
+          name: ordcacert
+        - mountPath: /var/hyperledger/msp/signcerts/
+          name: orderer4cert
+        - mountPath: /var/hyperledger/msp/keystore/
+          name: orderer4key
+        - mountPath: /var/hyperledger/tls/ca
+          name: orderer4tlsca
+        - mountPath: /var/hyperledger/tls/cert
+          name: orderer4tlscert
+        - mountPath: /var/hyperledger/tls/key
+          name: orderer4tlskey
+        - mountPath: /var/hyperledger/files
+          name: genesis
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orderer5
+  labels:
+    app: orderer5
+    version: v1
+spec:
+  replicas: 1
+  minReadySeconds: 60
+  selector:
+    matchLabels:
+      version: v1
+      app: orderer5
+  template:
+    metadata:
+      labels:
+        version: v1
+        app: orderer5
+    spec:
+      volumes:
+      - name: sharedvolume
+        persistentVolumeClaim:
+          claimName: orderer5-pvc
+      - name: ordadmincert
+        secret:
+          secretName: ordadmincert
+      - name: ordcacert
+        secret:
+          secretName: ordcacert
+      - name: orderer5cert
+        secret:
+          secretName: orderer5cert
+      - name: orderer5key
+        secret:
+          secretName: orderer5key   
+      - name: orderer5tlsca
+        secret:
+          secretName: orderer5tlsca
+      - name: orderer5tlscert
+        secret:
+          secretName: orderer5tlscert
+      - name: orderer5tlskey
+        secret:
+          secretName: orderer5tlskey
+      - name: genesis
+        secret:
+          secretName: genesis
+      serviceAccountName: blockchain-orderer5
+      containers:
+      - name: orderer5
+        image: hyperledger/fabric-orderer:1.4
+        command: ["sh", "-c", "sleep 5; orderer"]
+        ports:
+          - containerPort: 31050
+        envFrom:
+        - configMapRef:
+            name: ordererconfigmap
+        env:
+        - name: ORDERER_GENERAL_LISTENADDRESS
+          value: "0.0.0.0"
+        - name: ORDERER_GENERAL_LISTENPORT
+          value: "31050"
+        volumeMounts:
+        - mountPath: /shared
+          name: sharedvolume
+        - mountPath: /var/hyperledger
+          name: sharedvolume
+        - mountPath: /var/hyperledger/msp/admincerts/
+          name: ordadmincert
+        - mountPath: /var/hyperledger/msp/cacerts/
+          name: ordcacert
+        - mountPath: /var/hyperledger/msp/signcerts/
+          name: orderer5cert
+        - mountPath: /var/hyperledger/msp/keystore/
+          name: orderer5key
+        - mountPath: /var/hyperledger/tls/ca
+          name: orderer5tlsca
+        - mountPath: /var/hyperledger/tls/cert
+          name: orderer5tlscert
+        - mountPath: /var/hyperledger/tls/key
+          name: orderer5tlskey
+        - mountPath: /var/hyperledger/files
+          name: genesis

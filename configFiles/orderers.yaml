@@ -1,0 +1,399 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orderer
+spec:
+  replicas: 1
+  minReadySeconds: 60
+  selector:
+    matchLabels:
+      name: orderer
+  template:
+    metadata:
+      labels:
+        name: orderer
+    spec:
+      volumes:
+      - name: sharedvolume
+        persistentVolumeClaim:
+          claimName: orderer-pvc
+
+      containers:
+      - name: orderer
+        image: hyperledger/fabric-orderer:1.4
+        command: ["sh", "-c", "sleep 5 && while [ ! -f /shared/artifacts/status_configtxgen_complete ]; do echo Waiting for configtxgen; sleep 1; done; orderer"]
+        env:
+        - name: ORDERER_GENERAL_LISTENADDRESS
+          value: "0.0.0.0"
+        - name: ORDERER_GENERAL_LISTENPORT
+          value: "31010"
+        - name: ORDERER_GENERAL_LEDGERTYPE
+          value: "file"
+        - name: ORDERER_FILELEDGER_LOCATION
+          value: "/shared/orderer/"
+        - name: ORDERER_GENERAL_BATCHTIMEOUT
+          value: "100ms"
+        - name: ORDERER_GENERAL_BATCHSIZE_MAXMESSAGECOUNT
+          value: "10"
+        - name: ORDERER_GENERAL_MAXWINDOWSIZE
+          value: "1000"
+        - name: ORDERER_GENERAL_ORDERERTYPE
+          value: "etcdraft"
+        - name: ORDERER_GENERAL_LOGLEVEL
+          value: "DEBUG"
+        - name: ORDERER_GENERAL_GENESISMETHOD
+          value: "file"
+        - name: ORDERER_GENERAL_GENESISFILE
+          value: "/shared/artifacts/genesis.block"
+        - name: ORDERER_GENERAL_LOCALMSPID
+          value: "OrdererMSP"
+        - name: ORDERER_GENERAL_LOCALMSPDIR
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/msp"
+        - name: ORDERER_GENERAL_TLS_ENABLED
+          value: "true"
+        - name: ORDERER_GENERAL_TLS_PRIVATEKEY
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.key"
+        - name: ORDERER_GENERAL_TLS_CERTIFICATE
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt"
+        - name: ORDERER_GENERAL_TLS_ROOTCAS
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/ca.crt"
+        - name: ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt"
+        - name: ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.key"
+        - name: ORDERER_GENERAL_CLUSTER_ROOTCAS
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/ca.crt"
+        - name: ORDERER_GENERAL_GENESISPROFILE
+          value: "initial"
+        - name: GODEBUG
+          value: "netdns=go"   
+        - name: ORDERER_GENERAL_GENESISPROFILE
+          value: "initial"
+        - name: ORDERER_CFG_PATH
+          value: "/shared"
+        volumeMounts:
+        - mountPath: /shared
+          name: sharedvolume
+        - mountPath: /var/hyperledger
+          name: sharedvolume
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orderer2
+spec:
+  replicas: 1
+  minReadySeconds: 60
+  selector:
+    matchLabels:
+      name: orderer2
+  template:
+    metadata:
+      labels:
+        name: orderer2
+    spec:
+      volumes:
+      - name: sharedvolume
+        persistentVolumeClaim:
+          claimName: orderer2-pvc
+
+      containers:
+      - name: orderer2
+        image: hyperledger/fabric-orderer:1.4
+        command: ["sh", "-c", "sleep 5 && while [ ! -f /shared/artifacts/status_configtxgen_complete ]; do echo Waiting for configtxgen; sleep 1; done; orderer"]
+        env:
+        - name: ORDERER_GENERAL_LISTENADDRESS
+          value: "0.0.0.0"
+        - name: ORDERER_GENERAL_LISTENPORT
+          value: "31020"
+        - name: ORDERER_GENERAL_LEDGERTYPE
+          value: "file"
+        - name: ORDERER_FILELEDGER_LOCATION
+          value: "/shared/orderer/"
+        - name: ORDERER_GENERAL_BATCHTIMEOUT
+          value: "100ms"
+        - name: ORDERER_GENERAL_BATCHSIZE_MAXMESSAGECOUNT
+          value: "10"
+        - name: ORDERER_GENERAL_MAXWINDOWSIZE
+          value: "1000"
+        - name: ORDERER_GENERAL_ORDERERTYPE
+          value: "etcdraft"
+        - name: ORDERER_GENERAL_LOGLEVEL
+          value: "DEBUG"
+        - name: ORDERER_GENERAL_GENESISMETHOD
+          value: "file"
+        - name: ORDERER_GENERAL_GENESISFILE
+          value: "/shared/artifacts/genesis.block"
+        - name: ORDERER_GENERAL_LOCALMSPID
+          value: "OrdererMSP"
+        - name: ORDERER_GENERAL_LOCALMSPDIR
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/msp"
+        - name: ORDERER_GENERAL_TLS_ENABLED
+          value: "true"
+        - name: ORDERER_GENERAL_TLS_PRIVATEKEY
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/server.key"
+        - name: ORDERER_GENERAL_TLS_CERTIFICATE
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/server.crt"
+        - name: ORDERER_GENERAL_TLS_ROOTCAS
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/ca.crt"
+        - name: ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/server.crt"
+        - name: ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/server.key"
+        - name: ORDERER_GENERAL_CLUSTER_ROOTCAS
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/ca.crt"
+        - name: ORDERER_GENERAL_GENESISPROFILE
+          value: "initial"
+        - name: GODEBUG
+          value: "netdns=go"   
+        - name: ORDERER_GENERAL_GENESISPROFILE
+          value: "initial"
+        - name: ORDERER_CFG_PATH
+          value: "/shared"
+        volumeMounts:
+        - mountPath: /shared
+          name: sharedvolume
+        - mountPath: /var/hyperledger
+          name: sharedvolume
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orderer3
+spec:
+  replicas: 1
+  minReadySeconds: 60
+  selector:
+    matchLabels:
+      name: orderer3
+  template:
+    metadata:
+      labels:
+        name: orderer3
+    spec:
+      volumes:
+      - name: sharedvolume
+        persistentVolumeClaim:
+          claimName: orderer3-pvc
+
+      containers:
+      - name: orderer3
+        image: hyperledger/fabric-orderer:1.4
+        command: ["sh", "-c", "sleep 5 && while [ ! -f /shared/artifacts/status_configtxgen_complete ]; do echo Waiting for configtxgen; sleep 1; done; orderer"]
+        env:
+        - name: ORDERER_GENERAL_LISTENADDRESS
+          value: "0.0.0.0"
+        - name: ORDERER_GENERAL_LISTENPORT
+          value: "31030"
+        - name: ORDERER_GENERAL_LEDGERTYPE
+          value: "file"
+        - name: ORDERER_FILELEDGER_LOCATION
+          value: "/shared/orderer/"
+        - name: ORDERER_GENERAL_BATCHTIMEOUT
+          value: "100ms"
+        - name: ORDERER_GENERAL_BATCHSIZE_MAXMESSAGECOUNT
+          value: "10"
+        - name: ORDERER_GENERAL_MAXWINDOWSIZE
+          value: "1000"
+        - name: ORDERER_GENERAL_ORDERERTYPE
+          value: "etcdraft"
+        - name: ORDERER_GENERAL_LOGLEVEL
+          value: "DEBUG"
+        - name: ORDERER_GENERAL_GENESISMETHOD
+          value: "file"
+        - name: ORDERER_GENERAL_GENESISFILE
+          value: "/shared/artifacts/genesis.block"
+        - name: ORDERER_GENERAL_LOCALMSPID
+          value: "OrdererMSP"
+        - name: ORDERER_GENERAL_LOCALMSPDIR
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/msp"
+        - name: ORDERER_GENERAL_TLS_ENABLED
+          value: "true"
+        - name: ORDERER_GENERAL_TLS_PRIVATEKEY
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/server.key"
+        - name: ORDERER_GENERAL_TLS_CERTIFICATE
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/server.crt"
+        - name: ORDERER_GENERAL_TLS_ROOTCAS
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/ca.crt"
+        - name: ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/server.crt"
+        - name: ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/server.key"
+        - name: ORDERER_GENERAL_CLUSTER_ROOTCAS
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/ca.crt"
+        - name: ORDERER_GENERAL_GENESISPROFILE
+          value: "initial"
+        - name: GODEBUG
+          value: "netdns=go"   
+        - name: ORDERER_GENERAL_GENESISPROFILE
+          value: "initial"
+        - name: ORDERER_CFG_PATH
+          value: "/shared"
+        volumeMounts:
+        - mountPath: /shared
+          name: sharedvolume
+        - mountPath: /var/hyperledger
+          name: sharedvolume
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orderer4
+spec:
+  replicas: 1
+  minReadySeconds: 60
+  selector:
+    matchLabels:
+      name: orderer4
+  template:
+    metadata:
+      labels:
+        name: orderer4
+    spec:
+      volumes:
+      - name: sharedvolume
+        persistentVolumeClaim:
+          claimName: orderer4-pvc
+
+      containers:
+      - name: orderer4
+        image: hyperledger/fabric-orderer:1.4
+        command: ["sh", "-c", "sleep 5 && while [ ! -f /shared/artifacts/status_configtxgen_complete ]; do echo Waiting for configtxgen; sleep 1; done; orderer"]
+        env:
+        - name: ORDERER_GENERAL_LISTENADDRESS
+          value: "0.0.0.0"
+        - name: ORDERER_GENERAL_LISTENPORT
+          value: "31040"
+        - name: ORDERER_GENERAL_LEDGERTYPE
+          value: "file"
+        - name: ORDERER_FILELEDGER_LOCATION
+          value: "/shared/orderer/"
+        - name: ORDERER_GENERAL_BATCHTIMEOUT
+          value: "100ms"
+        - name: ORDERER_GENERAL_BATCHSIZE_MAXMESSAGECOUNT
+          value: "10"
+        - name: ORDERER_GENERAL_MAXWINDOWSIZE
+          value: "1000"
+        - name: ORDERER_GENERAL_ORDERERTYPE
+          value: "etcdraft"
+        - name: ORDERER_GENERAL_LOGLEVEL
+          value: "DEBUG"
+        - name: ORDERER_GENERAL_GENESISMETHOD
+          value: "file"
+        - name: ORDERER_GENERAL_GENESISFILE
+          value: "/shared/artifacts/genesis.block"
+        - name: ORDERER_GENERAL_LOCALMSPID
+          value: "OrdererMSP"
+        - name: ORDERER_GENERAL_LOCALMSPDIR
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/msp"
+        - name: ORDERER_GENERAL_TLS_ENABLED
+          value: "true"
+        - name: ORDERER_GENERAL_TLS_PRIVATEKEY
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/server.key"
+        - name: ORDERER_GENERAL_TLS_CERTIFICATE
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/server.crt"
+        - name: ORDERER_GENERAL_TLS_ROOTCAS
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/ca.crt"
+        - name: ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/server.crt"
+        - name: ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/server.key"
+        - name: ORDERER_GENERAL_CLUSTER_ROOTCAS
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/ca.crt"
+        - name: ORDERER_GENERAL_GENESISPROFILE
+          value: "initial"
+        - name: GODEBUG
+          value: "netdns=go"   
+        - name: ORDERER_GENERAL_GENESISPROFILE
+          value: "initial"
+        - name: ORDERER_CFG_PATH
+          value: "/shared"
+        volumeMounts:
+        - mountPath: /shared
+          name: sharedvolume
+        - mountPath: /var/hyperledger
+          name: sharedvolume
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orderer5
+spec:
+  replicas: 1
+  minReadySeconds: 60
+  selector:
+    matchLabels:
+      name: orderer5
+  template:
+    metadata:
+      labels:
+        name: orderer5
+    spec:
+      volumes:
+      - name: sharedvolume
+        persistentVolumeClaim:
+          claimName: orderer5-pvc
+
+      containers:
+      - name: orderer5
+        image: hyperledger/fabric-orderer:1.4
+        command: ["sh", "-c", "sleep 5 && while [ ! -f /shared/artifacts/status_configtxgen_complete ]; do echo Waiting for configtxgen; sleep 1; done; orderer"]
+        env:
+        - name: ORDERER_GENERAL_LISTENADDRESS
+          value: "0.0.0.0"
+        - name: ORDERER_GENERAL_LISTENPORT
+          value: "31050"
+        - name: ORDERER_GENERAL_LEDGERTYPE
+          value: "file"
+        - name: ORDERER_FILELEDGER_LOCATION
+          value: "/shared/orderer/"
+        - name: ORDERER_GENERAL_BATCHTIMEOUT
+          value: "100ms"
+        - name: ORDERER_GENERAL_BATCHSIZE_MAXMESSAGECOUNT
+          value: "10"
+        - name: ORDERER_GENERAL_MAXWINDOWSIZE
+          value: "1000"
+        - name: ORDERER_GENERAL_ORDERERTYPE
+          value: "etcdraft"
+        - name: ORDERER_GENERAL_LOGLEVEL
+          value: "DEBUG"
+        - name: ORDERER_GENERAL_GENESISMETHOD
+          value: "file"
+        - name: ORDERER_GENERAL_GENESISFILE
+          value: "/shared/artifacts/genesis.block"
+        - name: ORDERER_GENERAL_LOCALMSPID
+          value: "OrdererMSP"
+        - name: ORDERER_GENERAL_LOCALMSPDIR
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/msp"
+        - name: ORDERER_GENERAL_TLS_ENABLED
+          value: "true"
+        - name: ORDERER_GENERAL_TLS_PRIVATEKEY
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/tls/server.key"
+        - name: ORDERER_GENERAL_TLS_CERTIFICATE
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/tls/server.crt"
+        - name: ORDERER_GENERAL_TLS_ROOTCAS
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/tls/ca.crt"
+        - name: ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/tls/server.crt"
+        - name: ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/tls/server.key"
+        - name: ORDERER_GENERAL_CLUSTER_ROOTCAS
+          value: "/shared/artifacts/crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/tls/ca.crt"
+        - name: ORDERER_GENERAL_GENESISPROFILE
+          value: "initial"
+        - name: GODEBUG
+          value: "netdns=go"   
+        - name: ORDERER_GENERAL_GENESISPROFILE
+          value: "initial"
+        - name: ORDERER_CFG_PATH
+          value: "/shared"
+        volumeMounts:
+        - mountPath: /shared
+          name: sharedvolume
+        - mountPath: /var/hyperledger
+          name: sharedvolume
